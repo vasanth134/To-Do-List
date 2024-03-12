@@ -4,6 +4,12 @@ import React, { useEffect, useState } from "react";
 function ToDOList() {
   const [task, useTask] = useState(["one", "two", "three"]);
   const [setTask, addTask] = useState("");
+  const [changeColor, setChangeColor] = useState(false);
+
+  const handleClick = () => {
+    
+    setChangeColor(!changeColor)
+  }
 
   function handleOnChange(event) {
     addTask(event.target.value);
@@ -43,13 +49,6 @@ function ToDOList() {
     useTask(updatedTask);
   }
 
-  
-    const color = {
-        backgroundColor:"blue",
-        color:'white'
-    }
-  
- 
   return (
     <>
       <div className="heading">To-Do-List</div>
@@ -60,17 +59,34 @@ function ToDOList() {
         onKeyPress={handleKeyPress}
       />
 
-      <button className="addButton" onClick={addNewTask}>add</button>
+      <button className="addButton" onClick={addNewTask}>
+        add
+      </button>
 
       <ol className="tasksMain">
         {task.map((tasks, index) => (
           <li key={index}>
             <span>{tasks}</span>
             <div className="btns flex justify-between text-white">
-                <button className="complete bg-black"onClick={color}>completed</button>
-            <button className="moveUpButton    bg-black " onClick={() => moveTaskUp(index)}>up</button>
-            <button className="moveDownButton   bg-black" onClick={() => moveTaskDown(index)}>down</button>
-            <button className="deleteButton    bg-black " onClick={() => deleteTask(index)}>delete</button>
+              <button className={`complete ${(changeColor === true) ? "bg-green-700" : "bg-blue-700"}` } onClick={handleClick}>completed</button>
+              <button
+                className="moveUpButton    bg-black "
+                onClick={() => moveTaskUp(index)}
+              >
+                up
+              </button>
+              <button
+                className="moveDownButton   bg-black"
+                onClick={() => moveTaskDown(index)}
+              >
+                down
+              </button>
+              <button
+                className="deleteButton    bg-black "
+                onClick={() => deleteTask(index)}
+              >
+                delete
+              </button>
             </div>
           </li>
         ))}
