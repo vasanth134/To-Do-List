@@ -1,3 +1,13 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+@layer components{
+    main{
+        @apply flex justify-center flex-col ;
+    };
+    .buttons{
+        @apply bg-black text-white flex justify-around ;
+    };
+}
