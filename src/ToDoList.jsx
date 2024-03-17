@@ -10,7 +10,6 @@ function ToDoList() {
   const [editedTaskDescription, setEditedTaskDescription] = useState("");
   const [editedTaskExpiry, setEditedTaskExpiry] = useState("");
   const [repeatOption, setRepeatOption] = useState("none");
-  const [completedTasksCount, setCompletedTasksCount] = useState(0);
   const [incompleteTasksCount, setIncompleteTasksCount] = useState(0);
 
   useEffect(() => {
@@ -43,9 +42,7 @@ function ToDoList() {
   }, [tasks]);
 
   function updateTasksCount() {
-    const completedCount = tasks.filter((task) => task.completed).length;
-    setCompletedTasksCount(completedCount);
-    setIncompleteTasksCount(tasks.length - completedCount);
+    setIncompleteTasksCount(tasks.length);
   }
 
   function handleDescriptionChange(event) {
@@ -90,8 +87,6 @@ function ToDoList() {
         description: newTaskDescription,
         expiry: newTaskExpiryValue,
         repeat: repeatOption,
-        completed: false, // New property to track completion status
-        priority: "Low", // Default priority
       };
 
       setTasks((prevTasks) => [...prevTasks, newTask]);
@@ -137,22 +132,6 @@ function ToDoList() {
     setEditedTaskExpiry("");
   }
 
-  // Function to toggle the completion status of a task
-  function toggleTaskCompletion(index) {
-    const updatedTasks = [...tasks];
-    updatedTasks[index].completed = !updatedTasks[index].completed;
-    setTasks(updatedTasks);
-    updateTasksCount();
-  }
-
-  // Function to toggle the priority level of a task
-  function toggleTaskPriority(index) {
-    const updatedTasks = [...tasks];
-    const currentPriority = updatedTasks[index].priority;
-    updatedTasks[index].priority = currentPriority === "Low" ? "High" : "Low";
-    setTasks(updatedTasks);
-  }
-
   // Function to convert time from 24-hour to 12-hour format
   function formatTime(timeString) {
     const time = new Date(timeString);
@@ -163,25 +142,43 @@ function ToDoList() {
     return `${hours}:${minutes < 10 ? "0" + minutes : minutes} ${ampm}`;
   }
 
+  function toggleTaskCompletion(index) {
+    const updatedTasks = [...tasks];
+    updatedTasks[index].completed = !updatedTasks[index].completed;
+    setTasks(updatedTasks);
+  }
+
   return (
     <main>
       <div className="heading font-">To-Do List</div>
-      <input
-        type="text"
-        value={newTaskDescription}
-        onChange={handleDescriptionChange}
-        placeholder="Task Description"
-        onKeyPress={handleKeyPress}
-      />
+      <div className="topInputdiv">
+        <input
+          className="taskInput"
+          type="text"
+          value={newTaskDescription}
+          onChange={handleDescriptionChange}
+          placeholder="Task Description"
+          onKeyPress={handleKeyPress}
+        />
+
+        <button className="addTaskButton" onClick={addNewTask}>
+          <img src="./src/assets/icons/addIcon.png"></img>
+        </button>
+      </div>
       {repeatOption === "none" && (
         <input
+          className="dateAndTime"
           type="datetime-local"
           value={newTaskExpiry}
           onChange={handleExpiryChange}
         />
       )}
 
-      <select value={repeatOption} onChange={handleRepeatChange}>
+      <select
+        className="repeatedTasks"
+        value={repeatOption}
+        onChange={handleRepeatChange}
+      >
         <option value="none">Do not repeat</option>
         <option value="daily">Repeat daily</option>
         <option value="monthly">Repeat monthly</option>
@@ -194,23 +191,17 @@ function ToDoList() {
         <option value="sunday">Repeat on Sunday</option>
       </select>
 
-      <button onClick={addNewTask}>Add Task</button>
-
-      <div>
-        Completed Tasks: {completedTasksCount}, Not Completed Tasks:{" "}
-        {incompleteTasksCount}
-      </div>
+      {/* <div>
+        Incomplete Tasks: {incompleteTasksCount}
+      </div> */}
 
       <ol>
         {tasks.map((task, index) => (
           <li
+            className="tasksAdded"
             key={index}
             style={{
-              backgroundColor: task.completed
-                ? "lightgreen"
-                : task.priority === "High"
-                ? "yellow"
-                : "inherit",
+              backgroundColor: "inherit",
             }}
           >
             {editingIndex === index ? (
@@ -220,6 +211,7 @@ function ToDoList() {
                   value={editedTaskDescription}
                   onChange={(e) => setEditedTaskDescription(e.target.value)}
                 />
+
                 {repeatOption === "none" && (
                   <input
                     type="datetime-local"
@@ -232,18 +224,33 @@ function ToDoList() {
               </>
             ) : (
               <>
-                <span>{task.description}</span>
-                <span>Expires: {formatTime(task.expiry)}</span>
-                <span>Repeat: {task.repeat}</span>
-                <span>Priority: {task.priority}</span>
+                <span
+                  className="finalTask"
+                  style={{
+                    textDecoration: task.completed ? "line-through" : "none",
+                  }}
+                >
+                  {task.description}
+                </span>
+
+                <span className="repeatEvent"> {task.repeat}</span>
+                <span className="time"> {formatTime(task.expiry)}</span>
+                <button
+                  className="editButton"
+                  onClick={() => handleEdit(index)}
+                >
+                  <img src="./src/assets/icons/icons8-edit.svg"></img>
+                </button>
                 <div className="buttons">
-                  <button onClick={() => handleEdit(index)}>Edit</button>
-                  <button onClick={() => deleteTask(index)}>Delete</button>
-                  <button onClick={() => toggleTaskCompletion(index)}>
-                    {task.completed ? "Undo" : "Completed"}
+                  <button onClick={() => deleteTask(index)}>
+                    <img src="./src/assets/icons/icons8-delete.svg"></img>
                   </button>
-                  <button onClick={() => toggleTaskPriority(index)}>
-                    {task.priority === "Low" ? "High Priority" : "Low Priority"}
+                  <button onClick={() => toggleTaskCompletion(index)}>
+                    {task.completed ? (
+                      "UNDO"
+                    ) : (
+                      <img src="./src/assets/icons/icons8-tick.svg"></img>
+                    )}
                   </button>
                 </div>
               </>

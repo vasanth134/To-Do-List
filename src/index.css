@@ -1,13 +1,58 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
 
+@font-face {
+  font-family: inter, sans-serif;
+  src: url(/src/assets/fonts/Inter-VariableFont_slnt\,wght.ttf);
+}
 
-@layer components{
-    main{
-        @apply flex justify-center flex-col ;
-    };
-    .buttons{
-        @apply bg-black text-white flex justify-around ;
-    };
+@layer components {
+  body {
+    @apply bg-[#0D0714] font-[inter];
+  }
+  main {
+    @apply flex justify-center items-center flex-col;
+  }
+  .topInputdiv {
+    @apply h-[6rem] w-[50rem] flex justify-around items-center relative top-20;
+  }
+  .taskInput {
+    @apply bg-transparent text-white h-[4rem] w-[40rem] border-[#3E1671] border-[2px] rounded-[1rem] pl-10 text-xl capitalize;
+  }
+  .addTaskButton {
+    @apply text-white  h-[55px] w-[60px] bg-transparent rounded-[1rem] flex justify-center items-center relative right-5;
+  }
+  .buttons {
+    @apply bg-[#15101C]  h-7 w-[90px] flex justify-between;
+  }
+  .dateAndTime {
+    @apply bg-transparent rounded-lg border-[#15101C] border-[2px] relative top-[95px] right-60 text-white;
+  }
+  .tasksAdded {
+    @apply bg-[#15101C]  text-[#9E78CF]  h-[6.5rem] w-[40rem] relative top-20 right-[8%] mb-5 rounded-[15px]  flex  pl-0.5 text-lg  items-center justify-around overflow-clip !important;
+  }
+  .finalTask {
+    @apply h-6 w-[50%] pl-6;
+  }
+  .repeatEvent {
+    @apply text-white;
+  }
+  .time {
+    @apply text-[#9E78CF] pl-3;
+  }
+  .editButton {
+    @apply h-5 w-5 relative bottom-10 right-[77%];
+  }
+  .repeatedTasks {
+    @apply  bg-transparent rounded-lg border-[#15101C] border-[2px] relative top-[65px] left-[130px] text-white;
+  }
+  .repeatedTasks > option {
+    @apply text-black;
+  }
+
+  /* Hover Effects */
+  .addTaskButton:hover {
+    @apply bg-[#9E78CF] transition delay-100;
+  }
 }
