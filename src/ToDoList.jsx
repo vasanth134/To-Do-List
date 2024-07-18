@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from "react";
-
+import add  from "./assets/icons/addIcon.png";
+import edit from "./assets/icons/icons8-edit.svg";
+import deletes from "./assets/icons/icons8-delete.svg";
+import tick from "./assets/icons/icons8-tick.svg";
 function ToDoList() {
   const [tasks, setTasks] = useState(
     JSON.parse(localStorage.getItem("tasks")) || []
@@ -162,7 +165,7 @@ function ToDoList() {
         />
 
         <button className="addTaskButton" onClick={addNewTask}>
-          <img src="./src/assets/icons/addIcon.png"></img>
+          <img src={add}></img>
         </button>
       </div>
       {repeatOption === "none" && (
@@ -239,17 +242,17 @@ function ToDoList() {
                   className="editButton"
                   onClick={() => handleEdit(index)}
                 >
-                  <img src="./src/assets/icons/icons8-edit.svg"></img>
+                  <img src={edit}></img>
                 </button>
                 <div className="buttons">
                   <button onClick={() => deleteTask(index)}>
-                    <img src="./src/assets/icons/icons8-delete.svg"></img>
+                    <img src={deletes}></img>
                   </button>
                   <button onClick={() => toggleTaskCompletion(index)}>
                     {task.completed ? (
                       "UNDO"
                     ) : (
-                      <img src="./src/assets/icons/icons8-tick.svg"></img>
+                      <img src={tick}></img>
                     )}
                   </button>
                 </div>
