@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import add  from "./assets/icons/addIcon.png";
+import add from "./assets/icons/addIcon.png";
 import edit from "./assets/icons/icons8-edit.svg";
 import deletes from "./assets/icons/icons8-delete.svg";
 import tick from "./assets/icons/icons8-tick.svg";
@@ -249,11 +249,7 @@ function ToDoList() {
                     <img src={deletes}></img>
                   </button>
                   <button onClick={() => toggleTaskCompletion(index)}>
-                    {task.completed ? (
-                      "UNDO"
-                    ) : (
-                      <img src={tick}></img>
-                    )}
+                    {task.completed ? "UNDO" : <img src={tick}></img>}
                   </button>
                 </div>
               </>
